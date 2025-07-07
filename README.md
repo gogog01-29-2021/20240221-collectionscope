@@ -234,6 +234,41 @@ The entire app is completely static files, so deployment to any host should be p
 
 If you would like to use [Github Pages](https://pages.github.com/) to host your app, you simply need to enable Pages in your repository settings, then push your code to Github.
 
+## Building an Image Album
+
+You can generate a lightweight album of images without using the full timeline or map features. Prepare a CSV file with at least these columns:
+
+* `title` – short title of the item
+* `filename` – image file name located in your image folder
+* `description` – optional text shown with the item
+
+Below is a minimal example configuration file:
+
+```yaml
+name: album-demo
+metadataFile: data/album.csv
+identifierColumn: filename
+filenameColumn: filename
+imageDirectory: ./img/album/
+itemFields:
+  - column: title
+    isTitle: true
+  - column: description
+visualizations:
+  grid: {}
+```
+
+Run the following commands to build the album:
+
+```
+python scaffold.py -config "config-album.yml"
+python prepare_metadata.py -config "config-album.yml"
+python prepare_textures.py -config "config-album.yml"
+python prepare_content.py -config "config-album.yml"
+```
+
+After these scripts finish you can view the result in `apps/album-demo/` through any static web server.
+
 ## Credits
 
 This prototype is [supported](https://knightfoundation.org/press/releases/shaping-the-future-of-technology-in-museums-knight-invests-750000-in-five-experiments-using-immersive-technology-in-the-arts/) by [The Knight Foundation](https://knightfoundation.org/) and built by the [American Museum of Natural History](https://www.amnh.org/)'s [Science Visualization Group](https://amnh-sciviz.github.io/)
